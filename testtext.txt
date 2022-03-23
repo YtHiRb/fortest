@@ -1,2 +1,0 @@
-This is a text file prepared for the test of push.
-日本語でも書いておく。
