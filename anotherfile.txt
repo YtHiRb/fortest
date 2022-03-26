@@ -1,2 +1,3 @@
 正しい文章
 Amendしたい文章をamendした後の文章
+revertしたい文章
