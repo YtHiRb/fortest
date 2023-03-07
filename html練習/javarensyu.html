@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>htmlでjavascriptの勉強</title>
+</head>
+<body>
+    <!-- 解説：alert, prompt, confirm -->
+    <!-- 以下のコードはjavascriptにおけるwhile文、変数宣言だけでなく、便利なインタラクティブ関数alert, prompt, confirmの説明を行なっている。
+    promptは引数二つで第一：ポップアップに表示されるメッセージ、第二：入力欄のデフォルト
+    confirmは引数がポップアップのメッセージでOKをクリックでtrue, キャンセルをクリックでfalseが代入。
+    alertは引数がメッセージで、OKしかボタンなく、それ押すとポップアップ消える。 -->
+    <script>
+        var res = false;
+        var mes;
+        while (res===false) {
+            mes = prompt("名前を入力してください", "山田太郎");
+            res = confirm("あなたは"+mes+"さんですね?");
+        }
+        alert("よろしく"+mes+"さん!");
+    </script>
+    <!-- javascriptではpythonの==に対応するものとして==(等価演算子)と===(厳密等価演算子)というものがある。前者は型が違っていても同じもの(例えば1と"1")ならtrue,後者は型まで含めて比較。
+    例えば以下のコードではhogeとだけ表示される
+    普通は===だけ使えば良さげだが、promptの入力で数字を答えさせる場合などは==が便利
+    -->
+    <script>
+        var num = 1;
+        var num2 = "1";
+        if(num == num2){
+            alert("hoge")
+        }
+        if(num === num2){
+            alert("hoge2")
+        }
+    </script>
+    <!-- if文を省略した３項演算子として、"?"がある -->
+    <script>
+        var ans = prompt("1+1=?", "数字を入力");
+        var TorF = (ans == 2) ? "正解" : "不正解";
+        alert(TorF);
+    </script>
+    <!-- 複数組み合わせればif elif elseもかける -->
+    <script>
+        var season = prompt("月を入力", "1")
+        var kisetsu = (season == 12 || season == 1 || season ==2) ? "冬":
+        (3 <= season && season <= 5) ? "春":
+        (6 <= season && season <= 8) ? "夏":
+        "秋";
+        alert("季節は"+kisetsu)
+    </script>
+    <!-- javascriptでの関数の定義方法には以下の3つがある -->
+    <script>
+        function func1(a,b){
+            alert(a+b);
+        }
+        let func2 = function(a,b){
+            alert(10*a+10*b);
+        }
+        let func3 = (a, b) => alert(20*a+20*b);
+        func1(3,5);
+        func2(3,5);
+        func3(3,5);
+    </script>
+    <!-- objectの生成は以下の通り -->
+    <script>
+        var user = {
+            name: "John",
+            age: 30,
+            sayHi: function(){
+                alert("Hi, "+this.name)
+            }
+        };
+        user.sayHi()
+        //thisというのは「このオブジェクトの」的なノリでオブジェクト自身のことを指す。
+        //javascriptのthisは特殊で、以下のような使い方もできる。
+        var admin = { name: "Admin" };
+        function sayHi2(){
+            alert(this.name);
+        };
+        admin.f = sayHi2;
+        admin.f();
+        //この場合thisはadminのことと解釈され、"Admin"が表示される。
+    </script>
+    <!-- もちろんJavaScriptでもいちいちこんなふうにobjectを定義するのではなく、コンストラクタが作れる。 -->
+    <script>
+        //慣習として、コンストラクタ関数は大文字で初め、インスタンス化はnew演算子を使う
+        function User(name) {
+            this.name = name;
+            this.isAdmin = false;
+        }
+        var user2 = new User("Jack");
+        alert(user2.name);//Jack
+    </script>
+    <!-- クラスの書き方はclass構文を使うのがメジャー -->
+    <script>
+        class User3 {
+            constructor(name) {
+                this.name = name;
+            }
+
+            sayHi3() {
+                alert(this.name);
+            }
+        }
+        var user3 = new User3("John");
+        user3.sayHi3();//John
+        //pythonの__init__がconstructorになっただけ。pythonにおけるクラス変数は定義できるのか?
+    </script>
+</body>

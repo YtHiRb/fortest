@@ -1,0 +1,90 @@
+/* cssの書き方のマナーとして、プロパティ({}の中のcolorとかのやつ)を書く順は
+
+視覚整形モデル（display,position,float etc…）：まず要素を表示するのかしないのか(display)、要素をどこに配置するの?(positionやfloat)
+視覚効果（overflow,visibility etc…）
+ボックスモデル/テーブル（width, height, margin,padding,border etc…）
+背景（background etc…）
+画像（object-position etc…）
+色（color etc…）
+フォント/テキスト（font,text-align etc…）
+マルチカラム（columns etc…）
+生成コンテンツ、自動番号付け、リスト（list-style,quotes etc…）
+ユーザーインターフェイス（cursor,outline etc…）
+アニメーション（transition,animation etc…）
+印刷
+音声
+
+の順ならしい。例としては、width→margin→padding→border→background-color→color→line-height
+
+displayはblock,inline,inline-block,noneとかの値を取るプロパティで、要素ごとにデフォルトで決まっている(pはblock, aはinlineなど)。よく使うのはblockとinlineで、blockでは要素が横にいっぱいまで広がって、要素同士は縦に並ぶ（例：段落など）。inlineでは要素は平べったく「横に」並ぶ（例：ハイパーリングが文章中に埋め込まれるように）。
+
+ここで、cssのボックスレイアウトでは、ページ上のスペースを占める各ボックスは要素の外側のmargin, コンテンツの周囲のpadding, paddingの外側の実線borderがあり、margin>border>padding>文字などという包含関係になっている。通常要素の大きさを指定する時は要素,padding,borderを合わせた長方形の大きさを指定している
+
+例えば、「空白文字について」のボックスでは、文字と枠線の間の余白がpadding,枠線がborder,枠線で囲まれた長方形の周囲がmargin、枠線内の色がbackground-colorになっている。まずwidthで要素の横幅を決めて、marginで横幅が決まった要素をその親要素(例:考えている要素がbodyならhtmlがその親)の中で上、横にどれだけ間隔を作るか(0 autoだと上は間隔0、横には均等に配置)を設定、paddingでコンテンツ(文字列など)に対する余白を上、横方向に決定、borderで枠線の線幅や色を設定(枠線なしも可能)
+
+ちなみに、要素を指定する方法は要素セレクター(例：p)、クラスセレクター(class属性に"sono1"が指定されている要素を指定するなら.sono1)、属性セレクター(a[title]とかとやると、aタグの中でもtitle属性が指定されているものを指定)、疑似クラスセレクター(疑似クラスとはセレクターに付加するキーワードで、例えば:hover疑似クラスはユーザーのポインターが当たった時にボタンの色を変更できる)、子孫結合子(article pとかと書くとarticleを親として持つp要素を選択)などがある
+*/
+html{
+    background : #eeeeee;
+    font-size:18px;
+    font-family: Meiryo;
+}
+body {
+    width : 80%;
+    margin:0.5em auto 0.5em;
+    border:1px solid #cccccc;
+    background-color:#ffffff;
+    line-height: 2em;
+}
+/* em(エム)は親要素のfont-sizeを1emとした単位。ちなみに、よく似たremはルート要素(html)のfont-sizeを1emとする。 */
+div.sono1{
+    width :75%;
+    margin:1.5em auto 2em;
+    padding:0.5em 1em;
+    border: 1px solid black;
+    background : #a3a0a0;
+    text-align :center;
+}/* h1のタイトルと「テストページ」という文字をまとめた<div>タグ(何も表さないが、cssで規則を指定する上で便利)にclass="sono1"とつけた。div.sono1のように表す。タグに関係なく全てのsono1クラスを表したかったら「.sono1」と書く。ちなみに、<div>と同じく何も意味を持たない<span>タグというものもあるが、これはdisplay=inlineなので、文章中で色をつけるとかで便利 */
+div.sono1 h1{
+    padding:0 0;
+    color:black;
+    font: size 40px;
+}
+div.sono1 p{
+    padding:0 0;
+}
+p {
+    width: 75%;
+    margin: 0 auto;
+    padding:2em;
+    color: black;
+    line-height: 2.5em;
+}
+a:hover{
+    color: green;
+}
+/* :hover疑似クラスによって、リンクがhoverされている時に色が変わるようにした */
+span{
+    background-color:lime;
+}
+ul{
+    width:60%;
+    margin: 0 auto;
+    padding:0.5em 1.5em;
+    border: 1px solid black;
+    background-color:#FFFFCC;
+    list-style:none;
+}
+div.oee{
+    width:60%;
+    margin: 0 auto;
+    padding:0.5em 1.5em;
+    border: 1px solid black;
+    background-color:#FFFFCC;
+}
+/* emというのは相対的な単位で、1emが親要素のフォントサイズ。 */
+
+/* 子孫結合子を使った。.sono1 pとはsono1の中のpの意味 */
+
+
+/* CSSではコメントはこんな感じで書く。 */

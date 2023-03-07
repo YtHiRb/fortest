@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>htmlでjavascriptの勉強</title>
+</head>
+<!-- 
+    まずDOM(document object model)ツリーについて説明する。DOMツリーは以下の有能チュートリアル
+    https://ja.javascript.info/
+    のDOMツリーの項目のようなツリー構造(一番上の図では"ルート"が<html>, そこから枝分かれして行ってノードとしては#textで表される<title><\title>や<body><\body>の間のテクスト、HEADやTITLEのようなelement,途中の図で現れるコメントアウトの#commentなどがある)のことで、そもそもDOMとはJavascriptなどのさまざまなプログラミング言語からHTMLなどを扱うためのAPIの記法である。ここではHTMLなどのドキュメントに含まれる要素や要素に含まれるテキストをオブジェクト(JavaScriptならまさに属性とかメソッドとかを持つobjectのこと)として扱う。
+    そして、chromeの開発者ツールの要素のリボンタグを選択するとそのページのhtmlのツリーが見れる(そしてノードにカーソルを合わせると対応するページの部分がハイライトされる。)また逆に要素の横にあるカーソルのロゴのボタンをクリックするとページの部分にカーソルを合わせることで対応するDOMツリーのノードがハイライトされる。
+    このディレクトリにあるdomtest.htmlで示しているように、JavaScriptにおけるDOMにおいてはhtmlの操作はルートとなるJavaScriptのdocumentオブジェクトの適切な子クラスへの操作である。例えば、<html>タグに対応するDOMノードに対応するJavascriptのオブジェクトはdocument.documentElement, <body>タグはdocument.body、<head>タグはdocument.headとなり、子ノードは例えば<body>の中のタグにアクセスしたい場合はdocument.body.childNodes[i](~~.childNodesはJavaScriptのコレクションというlistみたいなオブジェクトなのでi番目の要素へのアクセスの意味。これはi番目のノードに対応)のようにアクセスする。
+    ここで注意すべきは、「i番目のノード」という時に、DOMツリーにおけるテキストノードやコメントノードも含めて数えていて紛らわしいので、elementノードだけに着目してelementノードの中でのi番目にアクセスしたい場合はdocument.body.children[i]のように書く。
+    .childNodes, .childerenプロパティ以外にも、DOMツリーにおける親ノード、次のSibling(兄弟、つまり同じ親の子として次のノード)、前のSiblingは全ノード/elementのみの場合それぞれ(.parentNode, .nextSibling, .previousSibling)/(.parentElement, .nextElementSibling, .previousElementSibling)というプロパティを使ってアクセスする。
+    ちなみに、JavaScriptでよく使うpythonにおける
+    for a in lis:
+    みたいな書き方(~~childNodesや~~.childrenなどに使える)は
+    for (let elem of document.body.children){
+        やりたいこと
+    }
+    みたいに書く。
+    さて、ここでbodyとか以外の任意のhtmlタグにアクセスするにはどうすればいいかというと、まず
+    <div id="hoge">みたいにidが書かれているタグについては(なおidは性質上htmlドキュメントで一意出ないといけない)
+    document.getElementById("hoge")
+    みたいにアクセスする(もちろんdocument.body.getElementByIdとか書くと<body>内のid=hogeにアクセスするという意味合いになる)。
+    今まで学んだことを使うと、例えば
+    document.body===document.body.getElementByTagName("body")[0]
+    がtrueであることがわかる。
+    他にも、divなどのタグ名によってノードにアクセス(もちろん一意とは限らないので、そもそも返り値がコレクションである)するには
+    document.getElementsByTagName("div")
+    のようにアクセスする。
+    他にも、非常に強力なメソッドとして、cssのセレクタにアクセス(例えば子結合子">"を使ってul > li(ulの直接の子であるli)みたいに指定されるhtml要素)するためには
+    document.querySelectorAll("ul > li")
+    みたいに書くことでコレクションとしてアクセスできる。
+    ここで、document.getElementsByTagName("div")の要素などhtmlの<div>タグに対応するJavaScriptのオブジェクトのクラスはHTMLDivElement、"body"の場合HTMLBodyElement, "a"(<a href>とかの)の場合HTMLAnchorElementである。実際
+    document.getElementsByTagName("div")[0] instanceof HTMLDivElement
+    はtrueである。また、これらのHTMLなんちゃらElementクラスはHTMLElementクラスの子クラスで、さらにHTMLElement→Element→Node→EventTargetという順で子クラスとなっている(一番の親クラスはEventTargetクラス)。例えば、parentNodeプロパティなどはNodeクラスのメソッド、nextElementSiblingなどはElementクラスのメソッドである。ちなみに、クラス名を名を表示するには
+    document.getElementsByTagName("div")[0].constructor.name
+    のようにそのclassのconstructorのnameとして取得できる(functionオブジェクトのnameプロパティは作成時つけられた関数の名前)。これは、JavaScriptではいくらclassキーワードを使うことでpythonみたいにクラスを定義できても、あくまでこれはシンタックスシュガーで実際にはクラス名のコンストラクタという名の"関数"(内部でthis.goge=fugaみたいに書いている)を定義しているに過ぎないからである。
+    ちなみに、DOMノードに対応するJavaScriptオブジェクトelemがelement,textのどちらであるかは
+    elem.nodeType
+    によって確かめられる(1ならelement, 3ならtext)
+ -->
+<body>
+    <script>
+        function sayHi() {
+            alert("Hello");
+        }
+        window.sayHi();
+        //windowはブラウザウィンドウを表すJavaScriptのグローバルオブジェクト(デフォルトで言語や環境に組み込まれていてどこでも利用可能なもの)
+
+        //documentオブジェクトはページのコンテンツへのアクセスを提供する。
+        //背景色を赤に変える
+        document.body.style.background = "red";
+
+        //それを1秒後に戻す(setTimeoutがtime out後に実行される関数とtime outまでの時間(ms)を引数に取る?)
+        setTimeout(() => document.body.style.background = "", 1000);
+    </script>
+    <script>
+        //ブラウザオブジェクトモデル(BOM)はブラウザにより提供される追加オブジェクトでnavigatorオブジェクトとlocationオブジェクトが有名
+
+        alert("ブラウザ："+navigator.UserAgent+", OS:"+navigator.platform);
+        //locationオブジェクトは現在のurlを読みブラウザを新しいurlへリダイレクトできる
+        alert(location.href);//現在のurlを表示
+        if (confirm("go to wikipedia?")) {
+            location.href = "http://wikipedia.org"
+        }
+    </script>
+</body>

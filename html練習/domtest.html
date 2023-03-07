@@ -1,0 +1,72 @@
+<!--
+    作りたいページはクイズに全問正解したものだけがクイズマスター証明書のあるリンクにたどり着けるというものだが、イカサマをできないように色々試している。
+    ページを更新してもう一回答える→モーダルウィンドウで「ページを更新したのはわかっているよ、あなたのipアドレス：hoge。でも引き続き頑張ってね」と表示
+    さらにさっきのページの問題の答えを全て開示
+
+
+    「ヒントを開く」というボタンがあり、ホバーすると「ヒントをみてもいいの?
+    」とうかびあがる
+
+
+    制限時間のカウントダウンがある
+
+
+    別タブを開いて戻ってくるとページトップに戻っていて、「答えを調べていたね?」とメッセージ
+    browser.tabs.query(active === true, currentWindow === true) または window.onblur
+
+-->
+
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>【成功者には証明書】ひらめきクイズテスト</title>
+</head>
+<body>
+    <h1>ひらめき力テスト!</h1>
+    <p>あなたは自分の<strong>ひらめき力</strong>に自信はありますか？</p>
+    <p>もしあるのなら、以下のひらめきクイズに挑戦してみてください。以下のテストに
+        <ol>
+            <li>1回のみの挑戦で
+            <li>制限時間以内に
+            <li>1問のミスもなく
+        </ol>
+        回答できた人のみに<strong>【ひらめき力強者　証明書】</strong>を授けたいと思います。頑張ってください！</p>
+
+    <h2 id="q1"></h2>
+    <h3 id="s1"></h3>
+    <h2 id="q2"></h2>
+    <h3 id="s2"></h3>
+    <h2 id="q3"></h2>
+    <h3 id="s3"></h3>
+
+    <script>
+        qa = new Array();
+        qa[0] = ["1問目の問題文hoge", "選択肢1", "選択肢2"];
+        qa[1] = ["2問目の問題fuga", "選択肢1", "選択肢2", "選択肢3"];
+        qa[2] = ["3問目の問題piyo", "選択肢1", "選択肢2", "選択肢3", "選択肢4"];
+
+        for(let i=0;i<3;i++){
+            document.getElementById("q"+(i+1)).innerHTML = (i + 1) + "問目："+ qa[i][0];
+
+            let s = docment.getElementById("s"+(i+1));
+            let te = "";
+            for(let j=0;j<s.length;j++){
+                te += "<input type="radio" id="q1s1">"+
+            }
+            s.innerHTML = 
+            }
+        }
+    </script>
+    <!--
+    <script>
+        let div = document.createElement("div");
+        div.className = "no1";
+        let text = document.createTextNode("why can't I see this sentence?");
+        div.appendChild(text);
+        document.body.appendChild(div);
+    </script>
+-->
+</body>
